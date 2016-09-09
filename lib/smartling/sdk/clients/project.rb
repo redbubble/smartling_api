@@ -13,7 +13,8 @@ module Smartling
         end
 
         def details(project_id:)
-          response = connection.get("/auth-api/v2/projects/#{project_id}", {}, header)
+          response = connection.get("/projects-api/v2/projects/#{project_id}", {}, header)
+
           response.body.fetch("response", {}).fetch("data")
         end
 
@@ -22,7 +23,7 @@ module Smartling
         attr_reader :token
 
         def header
-          { 'Content-type' => 'application/json', 'Authorization' => "Bearer #{token}" }
+          { 'Authorization' => "Bearer #{token}", content_type: 'application/json', accept: 'application/json' }
         end
 
         def connection
