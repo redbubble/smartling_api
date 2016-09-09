@@ -6,6 +6,7 @@ module Smartling
   module Sdk
     module Clients
       class Authentication
+
         SMARTLING_API = "https://api.smartling.com"
 
         def initialize(id:, secret:)
@@ -18,7 +19,7 @@ module Smartling
           response.body.fetch("response", {}).fetch("data")
         end
 
-        private
+      private
 
         attr_reader :id, :secret
 

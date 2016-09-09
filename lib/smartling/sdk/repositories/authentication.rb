@@ -4,13 +4,20 @@ module Smartling
   module Sdk
     module Repositories
       class Authentication
-        def self.access_token(client: self.client)
+
+        def initialize(client: authentication_client)
+          @client = client
+        end
+
+        def access_token
           client.authenticate.fetch("accessToken")
         end
 
-        private
+      private
 
-        def self.client
+        attr_reader :client
+
+        def authentication_client
           Clients::Authentication.new(id: ENV.fetch("SMARTLING_ID"), secret: ENV.fetch("SMARTLING_SECRET"))
         end
       end

@@ -3,10 +3,11 @@ require 'smartling/sdk/repositories/authentication.rb'
 require 'smartling/sdk/clients/authentication.rb'
 
 RSpec.describe Smartling::Sdk::Repositories::Authentication, type: :repository do
-  describe '#acces_token' do
-    subject(:access_token) { described_class.access_token(client: client) }
+  describe '#access_token' do
+    subject(:access_token) { repository.access_token }
 
-    let(:client) { instance_double(Smartling::Sdk::Clients::Authentication, authenticate: authenticate) }
+    let(:repository)            { described_class.new(client: authentication_client) }
+    let(:authentication_client) { instance_double(Smartling::Sdk::Clients::Authentication, authenticate: authenticate) }
     let(:authenticate) do
       {
         "accessToken" => "123456",
