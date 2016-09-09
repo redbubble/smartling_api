@@ -9,13 +9,8 @@ RSpec.describe Smartling::Sdk::Repositories::Authentication, type: :repository d
     let(:client) { instance_double(Smartling::Sdk::Clients::Authentication, authenticate: authenticate) }
     let(:authenticate) do
       {
-        "response" => {
-          "code" => "SUCCESS",
-          "data" => {
-            "accessToken" => "123456",
-            "refreshToken" => "654321"
-          }
-        }
+        "accessToken" => "123456",
+        "refreshToken" => "654321"
       }
     end
 
