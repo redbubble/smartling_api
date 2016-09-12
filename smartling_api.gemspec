@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'smartling/sdk/version'
+require 'smartling_api/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "smartling-sdk"
-  spec.version       = Smartling::Sdk::VERSION
+  spec.name          = "smartling_api"
+  spec.version       = SmartlingApi::VERSION
   spec.authors       = ["Redbubble"]
   spec.email         = ["developers@redbubble.com"]
 

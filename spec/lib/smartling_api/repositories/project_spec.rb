@@ -1,13 +1,13 @@
 require 'spec_helper'
-require 'smartling/sdk/repositories/project.rb'
-require 'smartling/sdk/clients/project.rb'
+require 'smartling_api/repositories/project.rb'
+require 'smartling_api/clients/project.rb'
 
-RSpec.describe Smartling::Sdk::Repositories::Project, type: :repository do
+RSpec.describe SmartlingApi::Repositories::Project, type: :repository do
   describe '#list_locales' do
     subject(:list_locales) { repository.list_locales(project_id: 'Orko') }
 
     let(:repository) { described_class.new(client: client, token: 'Skeletor') }
-    let(:client)     { instance_double(Smartling::Sdk::Clients::Project, details: details) }
+    let(:client)     { instance_double(SmartlingApi::Clients::Project, details: details) }
     let(:details) do
       {
         "projectId" => "Teela",

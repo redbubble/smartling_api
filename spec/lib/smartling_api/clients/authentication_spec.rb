@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'smartling/sdk/clients/authentication.rb'
+require 'smartling_api/clients/authentication.rb'
 require 'json'
 
-RSpec.describe Smartling::Sdk::Clients::Authentication, type: :client do
+RSpec.describe SmartlingApi::Clients::Authentication, type: :client do
   describe '#authenticate' do
     subject(:authenticate) { authentication.authenticate }
 

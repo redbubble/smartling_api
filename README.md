@@ -1,1 +1,1 @@
-# Smartling::Sdk
+# Smartling Api

@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'smartling/sdk/clients/project.rb'
+require 'smartling_api/clients/project.rb'
 require 'json'
 
-RSpec.describe Smartling::Sdk::Clients::Project, type: :client do
+RSpec.describe SmartlingApi::Clients::Project, type: :client do
   describe "#details" do
     subject(:details) { client.details(project_id: project_id) }
 
@@ -11,7 +11,7 @@ RSpec.describe Smartling::Sdk::Clients::Project, type: :client do
     let(:token)       { "Orko" }
 
     before do
-      stub_request(:get, "#{described_class::SMARTLING_API}/auth-api/v2/projects/#{project_id}").
+      stub_request(:get, "#{described_class::SMARTLING_API}/projects-api/v2/projects/#{project_id}").
         with(headers: {'Authorization' => "Bearer #{token}"}).
         to_return(
           headers: { 'Content-type' => 'application/json'},
