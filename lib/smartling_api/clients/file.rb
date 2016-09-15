@@ -17,20 +17,41 @@ module SmartlingApi
         response.body.fetch("response", {}).fetch("data")
       end
 
+      def upload(project_id:, file:, fileUri:, fileType:, **options)
+        body = {
+          file:     Faraday::UploadIO.new(file, 'text/plain'),
+          fileUri:  fileUri,
+          fileType: fileType
+        }.merge(options)
+
+        multipart_connection.post("/files-api/v2/projects/#{project_id}/file", body, header)
+      end
+
     private
 
       attr_reader :token
 
       def header
-        { 'Authorization' => "Bearer #{token}", content_type: 'application/json', accept: 'application/json' }
+        { 'Authorization' => "Bearer #{token}" }
+      end
+
+      def multipart_connection
+        Faraday.new(url: SMARTLING_API) do |faraday|
+          faraday.request :multipart
+          faraday.request :url_encoded
+
+          faraday.response :json, content_type: /\bjson$/
+
+          faraday.adapter :net_http
+        end
       end
 
       def connection
         Faraday.new(url: SMARTLING_API) do |faraday|
-          faraday.adapter :net_http
           faraday.request :json
-
           faraday.response :json, content_type: /\bjson$/
+
+          faraday.adapter :net_http
         end
       end
     end

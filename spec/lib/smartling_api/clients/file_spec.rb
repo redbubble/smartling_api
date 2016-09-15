@@ -3,12 +3,13 @@ require 'smartling_api/clients/file.rb'
 require 'json'
 
 RSpec.describe SmartlingApi::Clients::File, type: :client do
+  let(:project_id)  { "She-Ra" }
+  let(:client)      { described_class.new(token: token) }
+  let(:token)       { "Battle Cat" }
+
   describe "#list_files" do
     subject(:file_list) { client.list_files(project_id: project_id) }
 
-    let(:client)      { described_class.new(token: token) }
-    let(:project_id)  { "She-Ra" }
-    let(:token)       { "Battle Cat" }
     let(:items)       {
                         [{
                           "fileUri"=>"[/Beast_Man/translate/lift.heavy]",
@@ -52,6 +53,52 @@ RSpec.describe SmartlingApi::Clients::File, type: :client do
         expect( file_list.fetch("totalCount") ).to eq totalCount
       end
 
+    end
+  end
+
+  describe "#upload" do
+
+    context "When the response is successful" do
+      subject(:upload_file) do
+        client.upload(
+          project_id: project_id,
+          file: file,
+          fileUri: fileUri,
+          fileType: file_type,
+          options_key: "heman_value"
+        )
+      end
+
+      let(:file)      { "He_man_secrets.yml" }
+      let(:file_path) { "Etheria" }
+      let(:file_type) { "yaml" }
+      let(:fileUri)   { "Etheria/He_man_secrets.yml" }
+
+      before do
+        stub_request(:post, "#{described_class::SMARTLING_API}/files-api/v2/projects/#{project_id}/file").
+        with(headers: {'Authorization' => "Bearer #{token}"},
+            body: {'file' => file, 'fileUri' => fileUri, 'fileType' => file_type, 'options_key' => 'heman_value'}).
+        to_return(
+          status: 200,
+          headers: { 'Content-type' => 'application/json'},
+          body: '{
+            "response": {
+              "code": "SUCCESS",
+              "data": {
+                "overWritten": "true",
+                "stringCount": "5",
+                "wordCount": "50"
+              }
+            }
+          }'
+        )
+
+        allow(Faraday::UploadIO).to receive(:new).with(file, 'text/plain') { file }
+      end
+
+      it "uploads the given .pot file" do
+        expect(upload_file.body.fetch("response").fetch("code")).to eq "SUCCESS"
+      end
     end
   end
 end
