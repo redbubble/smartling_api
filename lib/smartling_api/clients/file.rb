@@ -27,6 +27,13 @@ module SmartlingApi
         multipart_connection.post("/files-api/v2/projects/#{project_id}/file", body, header)
       end
 
+      def download_file(project_id:, locale_id:, fileUri:, **options)
+        body = { fileUri: fileUri }.merge(options)
+
+        response = connection.get("/files-api/v2/projects/#{project_id}/locales/#{locale_id}/file", body, header)
+        response.body
+      end
+
     private
 
       attr_reader :token
