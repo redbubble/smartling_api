@@ -125,4 +125,28 @@ RSpec.describe SmartlingApi::Clients::File, type: :client do
       end
     end
   end
+
+  describe "#delete" do
+    subject(:delete) { client.delete(project_id: project_id, file_uri: file_uri) }
+    let(:file_uri)    { "randor/Hordak.po" }
+
+    before do
+      stub_request(:post, "#{described_class::SMARTLING_API}/files-api/v2/projects/#{project_id}/file/delete").
+      with(headers: {'Authorization' => "Bearer #{token}"},
+          body: { 'fileUri' => file_uri }).
+      to_return(
+        status: 200,
+        headers: { 'Content-type' => 'application/json' },
+        body: '{
+          "response": {
+            "code": "SUCCESS"
+          }
+        }'
+      )
+    end
+
+    it "deletes the file" do
+      expect(delete.body.fetch("response").fetch("code")).to eq "SUCCESS"
+    end
+  end
 end

@@ -34,6 +34,10 @@ module SmartlingApi
         response.body
       end
 
+      def delete(project_id:, file_uri:)
+        connection.post("files-api/v2/projects/#{project_id}/file/delete", { fileUri: file_uri }, header)
+      end
+
     private
 
       attr_reader :token
