@@ -14,7 +14,7 @@ module SmartlingApi
       end
 
       def authenticate
-        response = connection.post('/auth-api/v2/authenticate', body, headers)
+        response = connection.post('/auth-api/v2/authenticate', body, {})
         response.body.fetch("response", {}).fetch("data")
       end
 
@@ -23,7 +23,7 @@ module SmartlingApi
       attr_reader :id, :secret
 
       def body
-        JSON({ userIdentifier: id, userSecret: secret })
+        { userIdentifier: id, userSecret: secret }
       end
 
       def headers
@@ -32,10 +32,11 @@ module SmartlingApi
 
       def connection
         Faraday.new(url: SMARTLING_API) do |faraday|
-          faraday.adapter :net_http
           faraday.request :json
 
           faraday.response :json, content_type: /\bjson$/
+
+          faraday.adapter :net_http
         end
       end
     end

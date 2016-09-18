@@ -22,15 +22,16 @@ module SmartlingApi
       attr_reader :token
 
       def header
-        { 'Authorization' => "Bearer #{token}", content_type: 'application/json', accept: 'application/json' }
+        { 'Authorization' => "Bearer #{token}" }
       end
 
       def connection
         Faraday.new(url: SMARTLING_API) do |faraday|
-          faraday.adapter :net_http
           faraday.request :json
 
           faraday.response :json, content_type: /\bjson$/
+
+          faraday.adapter :net_http
         end
       end
     end
