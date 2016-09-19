@@ -3,10 +3,12 @@ require 'smartling_api/repositories/file.rb'
 require 'smartling_api/clients/file.rb'
 
 RSpec.describe SmartlingApi::Repositories::File, type: :repository do
-  describe '#list_files' do
-    subject(:list_files) { repository.list_files(project_id: 'Orko') }
+  let(:repository) { described_class.new(client: client, token: 'Skeletor', project_id: project_id) }
+  let(:project_id) { 'Orko' }
 
-    let(:repository) { described_class.new(client: client, token: 'Skeletor') }
+  describe '#list_files' do
+    subject(:list_files) { repository.list_files }
+
     let(:client)     { instance_double(SmartlingApi::Clients::File, list_files: client_list_files) }
     let(:client_list_files) do
       {
@@ -33,9 +35,8 @@ RSpec.describe SmartlingApi::Repositories::File, type: :repository do
   end
 
   describe '#upload' do
-    subject(:upload) { repository.upload(project_id: 'Orko', file_path: 'en_US', file_uri: 'graceskull', file_type: 'plaintext') }
+    subject(:upload) { repository.upload(file_path: 'en_US', file_uri: 'graceskull', file_type: 'plaintext') }
 
-    let(:repository)    { described_class.new(client: client, token: 'Skeletor') }
     let(:client)        { instance_double(SmartlingApi::Clients::File, upload: client_upload) }
     let(:client_upload) do
       {
@@ -54,9 +55,8 @@ RSpec.describe SmartlingApi::Repositories::File, type: :repository do
   end
 
   describe '#download_locale' do
-    subject(:download_locale) { repository.download_locale(project_id: 'Orko', locale_id: 'en_US', file_uri: 'graceskull') }
+    subject(:download_locale) { repository.download_locale(locale_id: 'en_US', file_uri: 'graceskull') }
 
-    let(:repository)             { described_class.new(client: client, token: 'Skeletor') }
     let(:client)                 { instance_double(SmartlingApi::Clients::File, download_locale: client_download_locale) }
     let(:client_download_locale) { '{"heman_vs_skeletor": "true"}' }
 
@@ -66,9 +66,8 @@ RSpec.describe SmartlingApi::Repositories::File, type: :repository do
   end
 
   describe '#delete' do
-    subject(:delete) { repository.delete(project_id: 'Orko', file_uri: 'graceskull') }
+    subject(:delete) { repository.delete(file_uri: 'graceskull') }
 
-    let(:repository)    { described_class.new(client: client, token: 'Skeletor') }
     let(:client)        { instance_double(SmartlingApi::Clients::File, delete: client_delete) }
     let(:client_delete) { { 'code' => 'SUCCESS' } }
 

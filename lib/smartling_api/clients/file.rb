@@ -7,17 +7,18 @@ module SmartlingApi
     class File
       SMARTLING_API = "https://api.smartling.com"
 
-      def initialize(token:)
-        @token = token
+      def initialize(token:, project_id:)
+        @token      = token
+        @project_id = project_id
       end
 
-      def list_files(project_id:, **options)
+      def list_files(**options)
         response = connection.get("/files-api/v2/projects/#{project_id}/files/list", options, header)
 
         response.body.fetch("response", {}).fetch("data")
       end
 
-      def upload(project_id:, file_path:, file_uri:, file_type:, **options)
+      def upload(file_path:, file_uri:, file_type:, **options)
         body = {
           file:     Faraday::UploadIO.new(file_path, 'text/plain'),
           fileUri:  file_uri,
@@ -27,20 +28,20 @@ module SmartlingApi
         multipart_connection.post("/files-api/v2/projects/#{project_id}/file", body, header).body.fetch('response')
       end
 
-      def download_locale(project_id:, locale_id:, file_uri:, **options)
+      def download_locale(locale_id:, file_uri:, **options)
         body = { fileUri: file_uri }.merge(options)
 
         response = connection.get("/files-api/v2/projects/#{project_id}/locales/#{locale_id}/file", body, header)
         response.body
       end
 
-      def delete(project_id:, file_uri:)
+      def delete(file_uri:)
         connection.post("files-api/v2/projects/#{project_id}/file/delete", { fileUri: file_uri }, header).body.fetch('response')
       end
 
     private
 
-      attr_reader :token
+      attr_reader :token, :project_id
 
       def header
         { 'Authorization' => "Bearer #{token}" }

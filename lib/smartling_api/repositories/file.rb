@@ -5,33 +5,34 @@ module SmartlingApi
   module Repositories
     class File
 
-      def initialize(client: file_client, token: token)
-        @client = client
-        @token  = token
+      def initialize(client: file_client, token: token, project_id:)
+        @client     = client
+        @token      = token
+        @project_id = project_id
       end
 
-      def list_files(project_id:, **options)
-        client.list_files(project_id: project_id, **options).fetch("items")
+      def list_files(**options)
+        client.list_files(**options).fetch("items")
       end
 
-      def download_locale(project_id:, locale_id:, file_uri:, **options)
-        client.download_locale(project_id: project_id, locale_id: locale_id, file_uri: file_uri, **options)
+      def download_locale(locale_id:, file_uri:, **options)
+        client.download_locale(locale_id: locale_id, file_uri: file_uri, **options)
       end
 
-      def upload(project_id:, file_path:, file_uri:, file_type:, **options)
-        client.upload(project_id: project_id, file_path: file_path, file_uri: file_uri, file_type: file_type, **options)
+      def upload(file_path:, file_uri:, file_type:, **options)
+        client.upload(file_path: file_path, file_uri: file_uri, file_type: file_type, **options)
       end
 
-      def delete(project_id:, file_uri:)
-        client.delete(project_id: project_id, file_uri: file_uri)
+      def delete(file_uri:)
+        client.delete(file_uri: file_uri)
       end
 
     private
 
-      attr_reader :client, :token
+      attr_reader :client, :token, :project_id
 
       def file_client
-        Clients::File.new(token: token)
+        Clients::File.new(token: token, project_id: project_id)
       end
 
       def token

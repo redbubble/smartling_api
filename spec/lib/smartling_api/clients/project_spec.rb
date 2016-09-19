@@ -4,9 +4,9 @@ require 'json'
 
 RSpec.describe SmartlingApi::Clients::Project, type: :client do
   describe "#details" do
-    subject(:details) { client.details(project_id: project_id) }
+    subject(:details) { client.details }
 
-    let(:client)      { described_class.new(token: token) }
+    let(:client)      { described_class.new(token: token, project_id: project_id) }
     let(:project_id)  { "ManAtArms" }
     let(:token)       { "Orko" }
 

@@ -7,11 +7,12 @@ module SmartlingApi
     class Project
       SMARTLING_API = "https://api.smartling.com"
 
-      def initialize(token:)
-        @token = token
+      def initialize(token:, project_id:)
+        @token      = token
+        @project_id = project_id
       end
 
-      def details(project_id:)
+      def details
         response = connection.get("/projects-api/v2/projects/#{project_id}", {}, header)
 
         response.body.fetch("response", {}).fetch("data")
@@ -19,7 +20,7 @@ module SmartlingApi
 
     private
 
-      attr_reader :token
+      attr_reader :token, :project_id
 
       def header
         { 'Authorization' => "Bearer #{token}" }

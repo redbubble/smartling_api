@@ -4,11 +4,11 @@ require 'json'
 
 RSpec.describe SmartlingApi::Clients::File, type: :client do
   let(:project_id)  { "She-Ra" }
-  let(:client)      { described_class.new(token: token) }
+  let(:client)      { described_class.new(token: token, project_id: project_id) }
   let(:token)       { "Battle Cat" }
 
   describe "#list_files" do
-    subject(:file_list) { client.list_files(project_id: project_id, limit: 10) }
+    subject(:file_list) { client.list_files(limit: 10) }
 
     let(:items) do
       [{
@@ -61,7 +61,6 @@ RSpec.describe SmartlingApi::Clients::File, type: :client do
     context "When the response is successful" do
       subject(:upload_file) do
         client.upload(
-          project_id:  project_id,
           file_path:   file,
           file_uri:    file_uri,
           file_type:   file_type,
@@ -103,7 +102,7 @@ RSpec.describe SmartlingApi::Clients::File, type: :client do
   end
 
   describe "#download_locale" do
-    subject(:download_locale) { client.download_locale(project_id: project_id, locale_id: locale_id, file_uri: file_uri, options_key: "heman_value") }
+    subject(:download_locale) { client.download_locale(locale_id: locale_id, file_uri: file_uri, options_key: "heman_value") }
 
     let(:locale_id)     { "King_Randor" }
     let(:filename)      { "Hordak.po" }
@@ -128,7 +127,7 @@ RSpec.describe SmartlingApi::Clients::File, type: :client do
   end
 
   describe "#delete" do
-    subject(:delete) { client.delete(project_id: project_id, file_uri: file_uri) }
+    subject(:delete) { client.delete(file_uri: file_uri) }
     let(:file_uri)    { "randor/Hordak.po" }
 
     before do

@@ -4,9 +4,9 @@ require 'smartling_api/clients/project.rb'
 
 RSpec.describe SmartlingApi::Repositories::Project, type: :repository do
   describe '#list_locales' do
-    subject(:list_locales) { repository.list_locales(project_id: 'Orko') }
+    subject(:list_locales) { repository.list_locales }
 
-    let(:repository) { described_class.new(client: client, token: 'Skeletor') }
+    let(:repository) { described_class.new(client: client, token: 'Skeletor', project_id: 'she-ra') }
     let(:client)     { instance_double(SmartlingApi::Clients::Project, details: details) }
     let(:details) do
       {
