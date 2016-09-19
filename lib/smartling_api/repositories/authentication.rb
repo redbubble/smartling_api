@@ -1,5 +1,6 @@
 require 'smartling_api/clients/smartling'
 require 'smartling_api/smartling_api'
+require 'smartling_api/errors/credentials'
 
 module SmartlingApi
   module Repositories
@@ -11,6 +12,7 @@ module SmartlingApi
       end
 
       def access_token
+        raise Errors::Credentials if configuration.invalid?
         data = smartling.authenticate(url: '/auth-api/v2/authenticate', body: { userIdentifier: user_id, userSecret: user_secret })
 
         data.fetch("accessToken")
