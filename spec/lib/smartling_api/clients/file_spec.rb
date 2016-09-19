@@ -61,10 +61,10 @@ RSpec.describe SmartlingApi::Clients::File, type: :client do
     context "When the response is successful" do
       subject(:upload_file) do
         client.upload(
-          project_id: project_id,
-          file: file,
-          fileUri: fileUri,
-          fileType: file_type,
+          project_id:  project_id,
+          file_path:   file,
+          file_uri:    file_uri,
+          file_type:   file_type,
           options_key: "heman_value"
         )
       end
@@ -72,12 +72,12 @@ RSpec.describe SmartlingApi::Clients::File, type: :client do
       let(:file)      { "He_man_secrets.yml" }
       let(:file_path) { "Etheria" }
       let(:file_type) { "yaml" }
-      let(:fileUri)   { "Etheria/He_man_secrets.yml" }
+      let(:file_uri)  { "Etheria/He_man_secrets.yml" }
 
       before do
         stub_request(:post, "#{described_class::SMARTLING_API}/files-api/v2/projects/#{project_id}/file").
         with(headers: {'Authorization' => "Bearer #{token}"},
-            body: {'file' => file, 'fileUri' => fileUri, 'fileType' => file_type, 'options_key' => 'heman_value'}).
+            body: {'file' => file, 'fileUri' => file_uri, 'fileType' => file_type, 'options_key' => 'heman_value'}).
         to_return(
           status: 200,
           headers: { 'Content-type' => 'application/json'},
@@ -97,21 +97,22 @@ RSpec.describe SmartlingApi::Clients::File, type: :client do
       end
 
       it "uploads the given .pot file" do
-        expect(upload_file.body.fetch("response").fetch("code")).to eq "SUCCESS"
+        expect(upload_file.fetch("code")).to eq "SUCCESS"
       end
     end
   end
 
-  describe "#download_file" do
-    subject(:download_file) { client.download_file(project_id: project_id, locale_id: locale_id, fileUri: fileUri, options_key: "heman_value") }
-    let(:locale_id)         { "King_Randor" }
-    let(:filename)          { "Hordak.po" }
-    let(:fileUri)           { "randor/Hordak.po" }
-    let(:response_body)     { '{"heman_vs_skeletor": "true"}' }
+  describe "#download_locale" do
+    subject(:download_locale) { client.download_locale(project_id: project_id, locale_id: locale_id, file_uri: file_uri, options_key: "heman_value") }
+
+    let(:locale_id)     { "King_Randor" }
+    let(:filename)      { "Hordak.po" }
+    let(:file_uri)      { "randor/Hordak.po" }
+    let(:response_body) { '{"heman_vs_skeletor": "true"}' }
 
     context "when a locale is given" do
       before do
-        stub_request(:get, "#{described_class::SMARTLING_API}/files-api/v2/projects/#{project_id}/locales/#{locale_id}/file?fileUri=#{fileUri}&options_key=heman_value").
+        stub_request(:get, "#{described_class::SMARTLING_API}/files-api/v2/projects/#{project_id}/locales/#{locale_id}/file?fileUri=#{file_uri}&options_key=heman_value").
         with(headers: {'Authorization' => "Bearer #{token}"}).
         to_return(
           status: 200,
@@ -121,7 +122,7 @@ RSpec.describe SmartlingApi::Clients::File, type: :client do
       end
 
       it "downloads the given file" do
-        expect(download_file).to eq response_body
+        expect(download_locale).to eq response_body
       end
     end
   end
@@ -146,7 +147,7 @@ RSpec.describe SmartlingApi::Clients::File, type: :client do
     end
 
     it "deletes the file" do
-      expect(delete.body.fetch("response").fetch("code")).to eq "SUCCESS"
+      expect(delete.fetch("code")).to eq "SUCCESS"
     end
   end
 end

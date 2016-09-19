@@ -14,6 +14,18 @@ module SmartlingApi
         client.list_files(project_id: project_id, **options).fetch("items")
       end
 
+      def download_locale(project_id:, locale_id:, file_uri:, **options)
+        client.download_locale(project_id: project_id, locale_id: locale_id, file_uri: file_uri, **options)
+      end
+
+      def upload(project_id:, file_path:, file_uri:, file_type:, **options)
+        client.upload(project_id: project_id, file_path: file_path, file_uri: file_uri, file_type: file_type, **options)
+      end
+
+      def delete(project_id:, file_uri:)
+        client.delete(project_id: project_id, file_uri: file_uri)
+      end
+
     private
 
       attr_reader :client, :token

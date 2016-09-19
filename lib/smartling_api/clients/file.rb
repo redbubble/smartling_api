@@ -17,25 +17,25 @@ module SmartlingApi
         response.body.fetch("response", {}).fetch("data")
       end
 
-      def upload(project_id:, file:, fileUri:, fileType:, **options)
+      def upload(project_id:, file_path:, file_uri:, file_type:, **options)
         body = {
-          file:     Faraday::UploadIO.new(file, 'text/plain'),
-          fileUri:  fileUri,
-          fileType: fileType
+          file:     Faraday::UploadIO.new(file_path, 'text/plain'),
+          fileUri:  file_uri,
+          fileType: file_type
         }.merge(options)
 
-        multipart_connection.post("/files-api/v2/projects/#{project_id}/file", body, header)
+        multipart_connection.post("/files-api/v2/projects/#{project_id}/file", body, header).body.fetch('response')
       end
 
-      def download_file(project_id:, locale_id:, fileUri:, **options)
-        body = { fileUri: fileUri }.merge(options)
+      def download_locale(project_id:, locale_id:, file_uri:, **options)
+        body = { fileUri: file_uri }.merge(options)
 
         response = connection.get("/files-api/v2/projects/#{project_id}/locales/#{locale_id}/file", body, header)
         response.body
       end
 
       def delete(project_id:, file_uri:)
-        connection.post("files-api/v2/projects/#{project_id}/file/delete", { fileUri: file_uri }, header)
+        connection.post("files-api/v2/projects/#{project_id}/file/delete", { fileUri: file_uri }, header).body.fetch('response')
       end
 
     private

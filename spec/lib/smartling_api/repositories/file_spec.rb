@@ -31,4 +31,49 @@ RSpec.describe SmartlingApi::Repositories::File, type: :repository do
       expect(list_files).to eq items
     end
   end
+
+  describe '#upload' do
+    subject(:upload) { repository.upload(project_id: 'Orko', file_path: 'en_US', file_uri: 'graceskull', file_type: 'plaintext') }
+
+    let(:repository)    { described_class.new(client: client, token: 'Skeletor') }
+    let(:client)        { instance_double(SmartlingApi::Clients::File, upload: client_upload) }
+    let(:client_upload) do
+      {
+        "code" => "SUCCESS",
+        "data" => {
+          "overWritten" => "true",
+          "stringCount" => "5",
+          "wordCount" => "50"
+        }
+      }
+    end
+
+    it 'returns file contents' do
+      expect(upload).to eq client_upload
+    end
+  end
+
+  describe '#download_locale' do
+    subject(:download_locale) { repository.download_locale(project_id: 'Orko', locale_id: 'en_US', file_uri: 'graceskull') }
+
+    let(:repository)             { described_class.new(client: client, token: 'Skeletor') }
+    let(:client)                 { instance_double(SmartlingApi::Clients::File, download_locale: client_download_locale) }
+    let(:client_download_locale) { '{"heman_vs_skeletor": "true"}' }
+
+    it 'returns file contents' do
+      expect(download_locale).to eq client_download_locale
+    end
+  end
+
+  describe '#delete' do
+    subject(:delete) { repository.delete(project_id: 'Orko', file_uri: 'graceskull') }
+
+    let(:repository)    { described_class.new(client: client, token: 'Skeletor') }
+    let(:client)        { instance_double(SmartlingApi::Clients::File, delete: client_delete) }
+    let(:client_delete) { { 'code' => 'SUCCESS' } }
+
+    it 'returns file contents' do
+      expect(delete).to eq client_delete
+    end
+  end
 end
