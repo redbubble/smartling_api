@@ -11,8 +11,8 @@ module SmartlingApi
         @token = token
       end
 
-      def list_files(project_id:)
-        response = connection.get("/files-api/v2/projects/#{project_id}/files/list", {}, header)
+      def list_files(project_id:, **options)
+        response = connection.get("/files-api/v2/projects/#{project_id}/files/list", options, header)
 
         response.body.fetch("response", {}).fetch("data")
       end

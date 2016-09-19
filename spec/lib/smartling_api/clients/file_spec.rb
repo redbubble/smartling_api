@@ -8,21 +8,21 @@ RSpec.describe SmartlingApi::Clients::File, type: :client do
   let(:token)       { "Battle Cat" }
 
   describe "#list_files" do
-    subject(:file_list) { client.list_files(project_id: project_id) }
+    subject(:file_list) { client.list_files(project_id: project_id, limit: 10) }
 
-    let(:items)       {
-                        [{
-                          "fileUri"=>"[/Beast_Man/translate/lift.heavy]",
-                          "lastUploaded"=>"[2016-09-12 10:51:48 +1000]",
-                          "fileType"=>"[plainText]",
-                          "hasInstructions"=>"false"
-                        }]
-                      }
+    let(:items) do
+      [{
+        "fileUri"=>"[/Beast_Man/translate/lift.heavy]",
+        "lastUploaded"=>"[2016-09-12 10:51:48 +1000]",
+        "fileType"=>"[plainText]",
+        "hasInstructions"=>"false"
+      }]
+    end
     let(:totalCount)  { 1 }
 
 
     before do
-      stub_request(:get, "#{described_class::SMARTLING_API}/files-api/v2/projects/#{project_id}/files/list").
+      stub_request(:get, "#{described_class::SMARTLING_API}/files-api/v2/projects/#{project_id}/files/list?limit=10").
         with(headers: {'Authorization' => "Bearer #{token}"}).
         to_return(
           headers: { 'Content-type' => 'application/json'},
