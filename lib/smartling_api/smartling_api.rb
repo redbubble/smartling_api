@@ -1,7 +1,11 @@
 require 'smartling_api/version'
 
 module SmartlingApi
-  Configuration = Struct.new(:id, :secret)
+  Configuration = Struct.new(:id, :secret) do
+    def invalid?
+      id.nil? || secret.nil?
+    end
+  end
 
   class << self
     attr_writer :configuration

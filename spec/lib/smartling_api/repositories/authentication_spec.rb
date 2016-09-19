@@ -24,10 +24,18 @@ RSpec.describe SmartlingApi::Repositories::Authentication, type: :repository do
     end
 
     let(:repository)    { described_class.new(configuration: configuration) }
-    let(:configuration) { double(id: 'he-man', secret: 'skeletor') }
+    let(:configuration) { double(invalid?: false, id: 'he-man', secret: 'skeletor') }
 
     it 'will return the token' do
       expect(access_token).to eq "123456"
+    end
+
+    context 'when user has not supplied smartling configuration' do
+      let(:configuration) { double(invalid?: true) }
+
+      it 'will raise credentials error' do
+        expect { access_token }.to raise_error Errors::Credentials
+      end
     end
   end
 end
