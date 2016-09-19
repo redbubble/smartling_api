@@ -1,13 +1,13 @@
 require 'smartling_api/clients/smartling'
+require 'smartling_api/smartling_api'
 
 module SmartlingApi
   module Repositories
     class Authentication
 
-      def initialize(smartling: smartling_client, id: id, secret: secret)
-        @smartling   = smartling
-        @user_id     = id
-        @user_secret = secret
+      def initialize(smartling: smartling_client, configuration: SmartlingApi.configuration)
+        @smartling     = smartling
+        @configuration = configuration
       end
 
       def access_token
@@ -18,18 +18,18 @@ module SmartlingApi
 
     private
 
-      attr_reader :smartling, :user_id, :user_secret
+      attr_reader :smartling, :configuration
 
       def smartling_client
         Clients::Smartling
       end
 
-      def id
-        ENV.fetch("SMARTLING_ID")
+      def user_id
+        configuration.id
       end
 
-      def secret
-        ENV.fetch("SMARTLING_SECRET")
+      def user_secret
+        configuration.secret
       end
     end
   end

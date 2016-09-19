@@ -23,7 +23,8 @@ RSpec.describe SmartlingApi::Repositories::Authentication, type: :repository do
         )
     end
 
-    let(:repository)  { described_class.new(id: 'he-man', secret: 'skeletor') }
+    let(:repository)    { described_class.new(configuration: configuration) }
+    let(:configuration) { double(id: 'he-man', secret: 'skeletor') }
 
     it 'will return the token' do
       expect(access_token).to eq "123456"
