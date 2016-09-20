@@ -1,5 +1,6 @@
 require 'faraday'
 require 'faraday_middleware'
+require 'smartling_api/errors/raise_error'
 
 module SmartlingApi
   module Clients
@@ -42,6 +43,7 @@ module SmartlingApi
             faraday.response :json, content_type: /\bjson$/
 
             faraday.adapter :net_http
+            faraday.use Errors::RaiseError
           end
         end
 
@@ -53,6 +55,7 @@ module SmartlingApi
             faraday.response :json, content_type: /\bjson$/
 
             faraday.adapter :net_http
+            faraday.use Errors::RaiseError
           end
         end
       end
