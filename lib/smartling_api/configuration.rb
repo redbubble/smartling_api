@@ -1,5 +1,3 @@
-require 'smartling_api/version'
-
 module SmartlingApi
   Configuration = Struct.new(:id, :secret) do
     def invalid?

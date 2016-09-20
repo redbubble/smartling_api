@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'smartling_api/configuration'
 
 RSpec.describe SmartlingApi do
   describe '#configure' do

@@ -1,5 +1,5 @@
 require 'smartling_api/clients/smartling'
-require 'smartling_api/smartling_api'
+require 'smartling_api/configuration'
 require 'smartling_api/errors/credentials'
 
 module SmartlingApi
