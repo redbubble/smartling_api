@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'smartling_api/repositories/project.rb'
+require 'smartling_api/project.rb'
 require 'smartling_api/clients/smartling.rb'
 
-RSpec.describe SmartlingApi::Repositories::Project, type: :repository do
+RSpec.describe SmartlingApi::Project, type: :repository do
   describe '#list_locales' do
     subject(:list_locales) { repository.list_locales }
 

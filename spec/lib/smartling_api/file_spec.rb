@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'smartling_api/repositories/file.rb'
+require 'smartling_api/file.rb'
 require 'smartling_api/clients/smartling.rb'
 
-RSpec.describe SmartlingApi::Repositories::File, type: :repository do
+RSpec.describe SmartlingApi::File, type: :repository do
   let(:repository) { described_class.new(token: token, project_id: project_id) }
   let(:project_id) { 'Orko' }
   let(:token)      { 'Skeletor' }

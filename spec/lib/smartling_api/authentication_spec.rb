@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'smartling_api/repositories/authentication.rb'
+require 'smartling_api/authentication.rb'
 require 'smartling_api/clients/smartling.rb'
 
-RSpec.describe SmartlingApi::Repositories::Authentication, type: :repository do
+RSpec.describe SmartlingApi::Authentication, type: :repository do
   describe '#access_token' do
     subject(:access_token) { repository.access_token }
 
