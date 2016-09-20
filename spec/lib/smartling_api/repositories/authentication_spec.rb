@@ -34,7 +34,7 @@ RSpec.describe SmartlingApi::Repositories::Authentication, type: :repository do
       let(:configuration) { double(invalid?: true) }
 
       it 'will raise credentials error' do
-        expect { access_token }.to raise_error Errors::Credentials
+        expect { access_token }.to raise_error SmartlingApi::Errors::Credentials
       end
     end
   end
