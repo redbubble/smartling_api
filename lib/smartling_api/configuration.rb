@@ -1,5 +1,5 @@
 module SmartlingApi
-  Configuration = Struct.new(:id, :secret) do
+  Configuration = Struct.new(:id, :secret, :project_id) do
     def invalid?
       id.nil? || secret.nil?
     end

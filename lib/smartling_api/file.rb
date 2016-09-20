@@ -4,7 +4,7 @@ require 'smartling_api/authentication'
 
 module SmartlingApi
   class File
-    def initialize(smartling: smartling_client, token: access_token, project_id:)
+    def initialize(smartling: smartling_client, token: access_token, project_id: current_project_id)
       @smartling  = smartling
       @token      = token
       @project_id = project_id
@@ -38,6 +38,10 @@ module SmartlingApi
   private
 
     attr_reader :smartling, :token, :project_id
+
+    def current_project_id
+      SmartlingApi.configuration.project_id
+    end
 
     def smartling_client
       Clients::Smartling
