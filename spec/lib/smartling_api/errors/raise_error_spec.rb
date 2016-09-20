@@ -1,15 +1,16 @@
 require "spec_helper"
 require 'smartling_api/errors/raise_error.rb'
 require 'smartling_api/errors/not_found.rb'
+require 'smartling_api/errors/client.rb'
 
-RSpec.describe Errors::RaiseError do
+RSpec.describe SmartlingApi::Errors::RaiseError do
   describe "#on_complete" do
     subject(:on_complete) { described_class.new.on_complete(response) }
     let(:body) do
       '{
         "response": {
           "errors": [{
-            "message": "He-man rulz"
+            "message": "Skeletor rulz"
           }]
         }
       }'
@@ -19,7 +20,23 @@ RSpec.describe Errors::RaiseError do
       let(:response) { double(status: 404, body: body) }
 
       it "raises a not found error" do
-        expect { on_complete }.to raise_error Errors::NotFound
+        expect { on_complete }.to raise_error(SmartlingApi::Errors::NotFound, "Skeletor rulz")
+      end
+    end
+
+    context "when status is not within Error handler" do
+      let(:response) { double(status: 400, body: body) }
+
+      it "raises a not found error" do
+        expect { on_complete }.to raise_error(SmartlingApi::Errors::Client, "Skeletor rulz")
+      end
+    end
+
+    context "when response does not contain a message" do
+      let(:response) { double(status: 400, body: "") }
+
+      it "raises a not found error" do
+        expect { on_complete }.to raise_error(SmartlingApi::Errors::Client, "")
       end
     end
 
