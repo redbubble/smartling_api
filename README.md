@@ -45,13 +45,15 @@ The `project_id` is optional.  If you are only using a single `project_id` per a
 		> SmartlingApi::Authentication.new.accesss_token 
 		=> "Token"
 
+The Authentication API will throw `SmartlingApi::Errors::Credentials` if the Smartling id and/or secret has not been set.
+
 ## Project Api
 
 Create a Project Api via,
 
-@param token: Optional ( Will default to using authentication api to retrieve access token )
+@param `token`: Optional ( Will default to using authentication api to retrieve access token )
 	
-@param project_id: Optional ( Will default to using configured project_id )
+@param `project_id`: Optional ( Will default to using configured project_id )
 
 	> SmartlingApi::Project.new
 	or
@@ -119,7 +121,34 @@ Create a Project Api via,
 
 ## Errors
 
+SmartlingApi will handle errors according to the response received from Smartling.  The errors that might be thrown on a request are,
+
+```
+  404 => SmartlingApi::Errors::NotFound,
+  422 => SmartlingApi::Errors::UnprocessableEntity,
+  500 => SmartlingApi::Errors::InternalServer
+```
+
+The errors all inherit, and will default to `SmartlingApi::Errors::Client` if any other response other than 2xx or 3xx is received.
+
 ## Todo
+
+The following apis still need to be implemented:
+
+-  Retrieve Authentication Refresh Token
+-  Accounts Api: to retrieve projects for an account
+-  File Api: List file types
+-  File Api:  Status: All Locales
+-  File Api:  Status: Single Locale
+-  File Api: Rename
+-  File Api:  Last Modified: Single Locale
+-  File Api:  Last Modified: All Locales
+-  File Api:  Import Translations
+-  File Api: Get Translations
+-  File Api:  Download Translated Files: Original File
+-  File Api:  Download Translated Files: Multiple Locales as ZIP
+-  File Api:  Download Translated Files: All Locales as ZIP
+-  File Api:  Download Translated Files: All Locales in one File - CSV
 
 ## License
 
