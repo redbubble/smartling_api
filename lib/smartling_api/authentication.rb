@@ -6,7 +6,7 @@ module SmartlingApi
   class Authentication
 
     def initialize(smartling: smartling_client, configuration: SmartlingApi.configuration)
-      @smartling     = smartling
+      @smartling     = smartling.new
       @configuration = configuration
     end
 

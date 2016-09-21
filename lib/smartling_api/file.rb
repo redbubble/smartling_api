@@ -5,20 +5,20 @@ require 'smartling_api/authentication'
 module SmartlingApi
   class File
     def initialize(smartling: smartling_client, token: access_token, project_id: current_project_id)
-      @smartling  = smartling
       @token      = token
       @project_id = project_id
+      @smartling  = smartling.new(token: token)
     end
 
     def list_files(**options)
-      files = smartling.get(url: "/files-api/v2/projects/#{project_id}/files/list", params: options, token: token)
+      files = smartling.get(url: "/files-api/v2/projects/#{project_id}/files/list", params: options)
       files.fetch("items")
     end
 
     def download_locale(locale_id:, file_uri:, **options)
       params = { fileUri: file_uri }.merge(options)
 
-      smartling.download(url: "/files-api/v2/projects/#{project_id}/locales/#{locale_id}/file", params: params, token: token)
+      smartling.download(url: "/files-api/v2/projects/#{project_id}/locales/#{locale_id}/file", params: params)
     end
 
     def upload(file_path:, file_uri:, file_type:, **options)
@@ -28,11 +28,11 @@ module SmartlingApi
         fileType: file_type
       }.merge(options)
 
-      smartling.upload(url: "/files-api/v2/projects/#{project_id}/file", body: body, token: token)
+      smartling.upload(url: "/files-api/v2/projects/#{project_id}/file", body: body)
     end
 
     def delete(file_uri:)
-      smartling.post(url: "/files-api/v2/projects/#{project_id}/file/delete", body: { fileUri: file_uri }, token: token)
+      smartling.post(url: "/files-api/v2/projects/#{project_id}/file/delete", body: { fileUri: file_uri })
     end
 
   private

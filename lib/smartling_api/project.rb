@@ -4,13 +4,13 @@ require 'smartling_api/clients/smartling'
 module SmartlingApi
   class Project
     def initialize(smartling: smartling_client, token: access_token, project_id: current_project_id)
-      @smartling  = smartling
       @token      = token
       @project_id = project_id
+      @smartling  = smartling.new(token: token)
     end
 
     def list_locales
-      locales = smartling.get(url: "/projects-api/v2/projects/#{project_id}", token: token).fetch("targetLocales", [])
+      locales = smartling.get(url: "/projects-api/v2/projects/#{project_id}").fetch("targetLocales", [])
 
       { "locales" => locales }
     end
