@@ -2,9 +2,9 @@ require 'spec_helper'
 require 'smartling_api/project.rb'
 require 'smartling_api/clients/smartling.rb'
 
-RSpec.describe SmartlingApi::Project, type: :repository do
+RSpec.describe SmartlingApi::Project do
   describe '#list_locales' do
-    subject(:list_locales) { repository.list_locales }
+    subject(:list_locales) { project.list_locales }
 
     before do
       stub_request(:get, "#{SmartlingApi::Clients::Smartling::SMARTLING_API}/projects-api/v2/projects/Skeletor").
@@ -28,7 +28,7 @@ RSpec.describe SmartlingApi::Project, type: :repository do
         )
     end
 
-    let(:repository) { described_class.new(token: 'she-ra', project_id: 'Skeletor') }
+    let(:project) { described_class.new(token: 'she-ra', project_id: 'Skeletor') }
 
     it 'returns a list of locale languages' do
       locales = {

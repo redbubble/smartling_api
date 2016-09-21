@@ -2,13 +2,13 @@ require 'spec_helper'
 require 'smartling_api/file.rb'
 require 'smartling_api/clients/smartling.rb'
 
-RSpec.describe SmartlingApi::File, type: :repository do
-  let(:repository) { described_class.new(token: token, project_id: project_id) }
+RSpec.describe SmartlingApi::File do
+  let(:file) { described_class.new(token: token, project_id: project_id) }
   let(:project_id) { 'Orko' }
   let(:token)      { 'Skeletor' }
 
   describe '#list_files' do
-    subject(:list_files) { repository.list_files(limit: 10) }
+    subject(:list_files) { file.list_files(limit: 10) }
 
     before do
       stub_request(:get, "#{SmartlingApi::Clients::Smartling::SMARTLING_API}/files-api/v2/projects/#{project_id}/files/list?limit=10").
@@ -45,13 +45,13 @@ RSpec.describe SmartlingApi::File, type: :repository do
   end
 
   describe '#upload' do
-    subject(:upload) { repository.upload(file_path: 'en_US', file_uri: 'graceskull', file_type: 'plaintext') }
+    subject(:upload) { file.upload(file_path: 'en_US', file_uri: 'graceskull', file_type: 'plaintext') }
 
     before do
-      allow(Faraday::UploadIO).to receive(:new).with('en_US', 'text/plain') { file }
+      allow(Faraday::UploadIO).to receive(:new).with('en_US', 'text/plain') { file_data }
 
       stub_request(:post, "#{SmartlingApi::Clients::Smartling::SMARTLING_API}/files-api/v2/projects/#{project_id}/file").
-        with(headers: {'Authorization' => "Bearer #{token}"}, body: {'file' => file, 'fileUri' => 'graceskull', 'fileType' => 'plaintext'}).
+        with(headers: {'Authorization' => "Bearer #{token}"}, body: {'file' => file_data, 'fileUri' => 'graceskull', 'fileType' => 'plaintext'}).
         to_return(
           status: 200,
           headers: { 'Content-type' => 'application/json'},
@@ -68,7 +68,7 @@ RSpec.describe SmartlingApi::File, type: :repository do
         )
     end
 
-    let(:file) { "by the power of graceskull" }
+    let(:file_data) { "by the power of graceskull" }
     let(:client_upload) do
       {
         "code" => "SUCCESS",
@@ -82,7 +82,7 @@ RSpec.describe SmartlingApi::File, type: :repository do
   end
 
   describe '#download_locale' do
-    subject(:download_locale) { repository.download_locale(locale_id: 'en_US', file_uri: 'graceskull') }
+    subject(:download_locale) { file.download_locale(locale_id: 'en_US', file_uri: 'graceskull') }
 
     before do
       stub_request(:get, "#{SmartlingApi::Clients::Smartling::SMARTLING_API}/files-api/v2/projects/#{project_id}/locales/en_US/file?fileUri=graceskull").
@@ -102,7 +102,7 @@ RSpec.describe SmartlingApi::File, type: :repository do
   end
 
   describe '#delete' do
-    subject(:delete) { repository.delete(file_uri: 'graceskull') }
+    subject(:delete) { file.delete(file_uri: 'graceskull') }
 
     before do
      stub_request(:post, "#{SmartlingApi::Clients::Smartling::SMARTLING_API}/files-api/v2/projects/#{project_id}/file/delete").

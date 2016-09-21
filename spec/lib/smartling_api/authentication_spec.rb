@@ -2,9 +2,9 @@ require 'spec_helper'
 require 'smartling_api/authentication.rb'
 require 'smartling_api/clients/smartling.rb'
 
-RSpec.describe SmartlingApi::Authentication, type: :repository do
+RSpec.describe SmartlingApi::Authentication do
   describe '#access_token' do
-    subject(:access_token) { repository.access_token }
+    subject(:access_token) { authentication.access_token }
 
     before do
       stub_request(:post, "#{SmartlingApi::Clients::Smartling::SMARTLING_API}/auth-api/v2/authenticate").
@@ -23,8 +23,8 @@ RSpec.describe SmartlingApi::Authentication, type: :repository do
         )
     end
 
-    let(:repository)    { described_class.new(configuration: configuration) }
-    let(:configuration) { double(invalid?: false, id: 'he-man', secret: 'skeletor') }
+    let(:authentication) { described_class.new(configuration: configuration) }
+    let(:configuration)  { double(invalid?: false, id: 'he-man', secret: 'skeletor') }
 
     it 'will return the token' do
       expect(access_token).to eq "123456"
