@@ -14,6 +14,9 @@ module SmartlingApi
     #
     # @see http://docs.smartling.com/pages/API/v2/Authentication/Authenticate
     #
+    # @example Retrieve access token
+    #   SmartlingApi::Authentication.new.accesss_token #=> "token"
+    #
     # @return [String] OAuth Access Token
     # @raise [Errors::Credentials] If the smartling id and secret have not been set
     def access_token

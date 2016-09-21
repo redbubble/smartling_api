@@ -1,1 +1,128 @@
 # Smartling Api
+
+## Overview
+
+Ruby wrapper for accessing the Smartling Translation API V2.
+
+The Smartling Translation API lets developers to internationalize their website or app by automating the translation and integration of their site content. Developers can upload resource files and download the translated files in a language of their choosing. There are options to allow for professional translation, community translation and machine translation.
+
+[Smartling API V2](http://docs.smartling.com/pages/API/v2/)
+
+## Requirements
+
+- ruby 2.0+
+
+## Installation
+
+Add this line to your application's Gemfile:
+
+  	gem 'smartling_api'
+
+## Usage
+
+### Configure
+
+You will need to configure smartling user id and secret. In Rails you would put it in an initializer file.
+
+	SmartlingApi.configure do |config|
+  	  config.id = <id>
+  	  config.secret = <secret>
+  	  config.project_id = <project_id> # Optional
+	end
+
+You can obtain an id, secret via [Create Authentication Tokens](http://docs.smartling.com/pages/API/v2/Authentication/)
+
+The `project_id` is optional.  If you are only using a single `project_id` per application then you may add your `project_id` here.  If not you will have to pass the `project_id` when you create your api call. Examples below.
+
+## Authentication Api
+
+
+### Retrieve Access Token
+
+-  [Authenticate API](http://docs.smartling.com/pages/API/v2/Authentication/Authenticate). Retrieve OAuth2 access token to be used with each api call.
+
+
+		> SmartlingApi::Authentication.new.accesss_token 
+		=> "Token"
+
+## Project Api
+
+
+Create a Project Api via,
+
+	> SmartlingApi::Project.new
+	or
+	> SmartlingApi::Project.new(token: 'token', project_id: 'project_id')
+	
+
+@param token: Optional ( Will default to using authentication api to retrieve access token )
+	
+@param project_id: Optional ( Will default to using configured project_id )
+
+
+- [List Locales API](http://docs.smartling.com/pages/API/v2/Projects/List-Projects/). Retrieve a list of all locales available.
+
+		> SmartlingApi::Project.new.list_locales 
+		=> { "locales" => [{ "localeId" => "de-DE", "description" => "German (Germany)" }, ...] }
+		
+		
+## File Api
+Create a Project Api via,
+
+	> SmartlingApi::File.new
+	or
+	> SmartlingApi::File.new(token: 'token', project_id: 'project_id')
+	
+@param `token`: Optional ( Will default to using authentication api to retrieve access token )
+	
+@param `project_id`: Optional ( Will default to using configured project_id )
+
+
+- [Delete File API](http://docs.smartling.com/pages/API/v2/FileAPI/Delete/). Delete a file within Smartling.
+
+
+		> SmartlingApi::File.new.delete(file_uri: '/translations/website') 
+		=> { "code" => "SUCCESS" }
+		
+	@param `file_uri`: File path within Smartling to delete
+
+
+- [Download Locale File API](http://docs.smartling.com/pages/API/v2/FileAPI/Download-File/Single-Locale/).  Returns the content of a file for the given locale and path.
+
+
+		> SmartlingApi::File.new.download_locale(locale_id: 'fr-Fr', file_uri: '/translation/website') 
+		=> "translations"
+		
+	@param `file_uri`: File path within Smartling to download
+	
+	@param `locale_id`: Locale Id of file to download
+
+- [List File API](http://docs.smartling.com/pages/API/v2/FileAPI/List/).  Retrieve list of files for a given project.
+
+
+		> SmartlingApi::File.new.list_files(uriMask: '.json') 
+		=> [{"fileUri" => "[/translate/file.json]", ...}]
+		
+	@param `**options`: Additional options for the given request. NOTE: If using a hash as parameters ensure all keys are symbols and then use `**options`.  See Smartling API Doc for options.
+	
+- [Upload File API](http://docs.smartling.com/pages/API/v2/FileAPI/Upload-File/).  Upload a file to the given path.
+
+		SmartlingApi::File.new.upload(file_path: 'website.pot', file_uri: '/translation/website', file_type: 'gettext') 
+		=> { "code" => "SUCCESS" }
+		
+	@param `file_path`: Location of file to upload
+	
+	@param `file_uri`: File path within smartling
+	
+	@param `file_type`: Type of file to upload. See Smartling API DOC for types.
+	
+	@param `**options`: Additional options for the given request. NOTE: If using a hash as parameters ensure all keys are symbols and then use `**options`.  See Smartling API Doc for options.
+
+## Errors
+
+## Todo
+
+## License
+
+Licensed under [MIT](./LICENSE.txt)
+
