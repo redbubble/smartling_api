@@ -8,7 +8,7 @@ module SmartlingApi
     def initialize(smartling: smartling_client, token: access_token, project_id: current_project_id)
       @token      = token
       @project_id = project_id
-      @smartling  = smartling.new(token: token)
+      @smartling  = smartling
     end
 
     # Access to Smartling files api to retrieve list of files for a given project
@@ -21,7 +21,7 @@ module SmartlingApi
     # @param options [Hash] Additional options for the given request.
     # @return [Array] A list of files matching the criteria
     def list_files(**options)
-      files = smartling.get(url: "/files-api/v2/projects/#{project_id}/files/list", params: options)
+      files = smartling.get(url: "/files-api/v2/projects/#{project_id}/files/list", token: token, params: options)
       files.fetch("items")
     end
 
@@ -39,7 +39,7 @@ module SmartlingApi
     def download_locale(locale_id:, file_uri:, **options)
       params = { fileUri: file_uri }.merge(options)
 
-      smartling.download(url: "/files-api/v2/projects/#{project_id}/locales/#{locale_id}/file", params: params)
+      smartling.download(url: "/files-api/v2/projects/#{project_id}/locales/#{locale_id}/file", token: token, params: params)
     end
 
     # Access to Smartling files api to upload a file
@@ -61,7 +61,7 @@ module SmartlingApi
         fileType: file_type
       }.merge(options)
 
-      smartling.upload(url: "/files-api/v2/projects/#{project_id}/file", body: body)
+      smartling.upload(url: "/files-api/v2/projects/#{project_id}/file", token: token, body: body)
     end
 
     # Access to Smartling files api to delete a file
@@ -74,7 +74,7 @@ module SmartlingApi
     # @param file_uri [String] File path within Smartling to delete
     # @return [Hash] Details for file deletion
     def delete(file_uri:)
-      smartling.post(url: "/files-api/v2/projects/#{project_id}/file/delete", body: { fileUri: file_uri })
+      smartling.post(url: "/files-api/v2/projects/#{project_id}/file/delete", token: token, body: { fileUri: file_uri })
     end
 
   private
@@ -86,7 +86,7 @@ module SmartlingApi
     end
 
     def smartling_client
-      Clients::Smartling
+      Clients::Smartling.new
     end
 
     def access_token

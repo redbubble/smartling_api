@@ -7,7 +7,7 @@ module SmartlingApi
     def initialize(smartling: smartling_client, token: access_token, project_id: current_project_id)
       @token      = token
       @project_id = project_id
-      @smartling  = smartling.new(token: token)
+      @smartling  = smartling
     end
 
     # Access to Smartling project api to retrieve list of locales available
@@ -19,7 +19,7 @@ module SmartlingApi
     #
     # @return [Hash] Details of the locales available with the key "locales"
     def list_locales
-      locales = smartling.get(url: "/projects-api/v2/projects/#{project_id}").fetch("targetLocales", [])
+      locales = smartling.get(url: "/projects-api/v2/projects/#{project_id}", token: token).fetch("targetLocales", [])
 
       { "locales" => locales }
     end
@@ -33,7 +33,7 @@ module SmartlingApi
     end
 
     def smartling_client
-      Clients::Smartling
+      Clients::Smartling.new
     end
 
     def access_token

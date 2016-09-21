@@ -7,31 +7,28 @@ module SmartlingApi
     # Client used to contact smartling api
     class Smartling
       SMARTLING_API = "https://api.smartling.com"
-      NONE = nil
-
-      def initialize(token: NONE)
-        @token = token
-      end
 
       # Get request used to contact Smartling API
       #
       # @param url [String] Path corresponding to API get request
+      # @param token [String] OAuth2 token used for accessing endpoint
       # @param params [Hash] Additional parameters to pass with request
       # @return [Hash] Data returned from request
       # @raise [Errors::Client] If response does not return a 2xx or 3xx
-      def get(url:, params: {})
-        response = connection.get(url, params, header)
+      def get(url:, token:, params: {})
+        response = connection.get(url, params, header(token))
         response.body.fetch("response", {}).fetch("data")
       end
 
       # Post request used to contact Smartling API
       #
       # @param url [String] Path corresponding to API get request
+      # @param token [String] OAuth2 token used for accessing endpoint
       # @param body [Hash] Request body to pass with request
       # @return [Hash] Response returned from request
       # @raise [Errors::Client] If response does not return a 2xx or 3xx
-      def post(url:, body:)
-        response = connection.post(url, body, header)
+      def post(url:, token:, body:)
+        response = connection.post(url, body, header(token))
         response.body.fetch("response", {})
       end
 
@@ -51,29 +48,29 @@ module SmartlingApi
       # Upload a file using a multipart request
       #
       # @param url [String] Path corresponding to API get request
+      # @param token [String] OAuth2 token used for accessing endpoint
       # @param body [Hash] Request body to pass with request
       # @return [Hash] Response returned from request
       # @raise [Errors::Client] If response does not return a 2xx or 3xx
-      def upload(url:, body:)
-        multipart_connection.post(url, body, header).body.fetch('response')
+      def upload(url:, token: token, body:)
+        multipart_connection.post(url, body, header(token)).body.fetch('response')
       end
 
       # Upload a file using a multipart request
       #
       # @param url [String] Path corresponding to API get request
+      # @param token [String] OAuth2 token used for accessing endpoint
       # @param params [Hash] Request params to pass with request
       # @return [Hash] Response returned from request
       # @raise [Errors::Client] If response does not return a 2xx or 3xx
-      def download(url:, params:)
-        response = connection.get(url, params, header)
+      def download(url:, token:, params:)
+        response = connection.get(url, params, header(token))
         response.body
       end
 
     private
 
-      attr_reader :token
-
-      def header
+      def header(token)
         { 'Authorization' => "Bearer #{token}" }
       end
 
