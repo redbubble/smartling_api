@@ -16,7 +16,7 @@ The Smartling Translation API lets developers to internationalize their website 
 
 Add this line to your application's Gemfile:
 
-  	gem 'smartling_api'
+  	gem 'smartling_api', '0.1.0'
 
 ## Usage
 
