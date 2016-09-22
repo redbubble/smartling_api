@@ -42,7 +42,7 @@ The `project_id` is optional.  If you are only using a single `project_id` per a
 -  [Authenticate API](http://docs.smartling.com/pages/API/v2/Authentication/Authenticate). Retrieve OAuth2 access token to be used with each api call.
 
 
-		> SmartlingApi::Authentication.new.accesss_token 
+		> SmartlingApi::Authentication.new.access_token 
 		=> "Token"
 
 The Authentication API will throw `SmartlingApi::Errors::Credentials` if the Smartling id and/or secret has not been set.
