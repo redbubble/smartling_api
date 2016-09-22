@@ -150,7 +150,14 @@ The following apis still need to be implemented:
 -  File Api:  Download Translated Files: All Locales as ZIP
 -  File Api:  Download Translated Files: All Locales in one File - CSV
 
+## Credits
+
+[![](/redbubble.png)][redbubble]
+
+smartling api is maintained and funded by [Redbubble][redbubble].
+
+  [redbubble]: https://www.redbubble.com
+
 ## License
 
 Licensed under [MIT](./LICENCE.txt)
-
