@@ -56,7 +56,7 @@ module SmartlingApi
         multipart_connection.post(url, body, header(token)).body.fetch('response')
       end
 
-      # Upload a file using a multipart request
+      # Download a file from smartling for the given url
       #
       # @param url [String] Path corresponding to API get request
       # @param token [String] OAuth2 token used for accessing endpoint
