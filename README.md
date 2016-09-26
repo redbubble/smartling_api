@@ -1,5 +1,7 @@
 # Smartling Api
 
+[![Gem Version](https://badge.fury.io/rb/smartling_api.svg)](https://badge.fury.io/rb/smartling_api)
+
 ## Overview
 
 Ruby wrapper for accessing the Smartling Translation API V2.
