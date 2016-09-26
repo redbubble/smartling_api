@@ -64,8 +64,8 @@ Create a Project Api via,
 
 - [List Locales API](http://docs.smartling.com/pages/API/v2/Projects/List-Projects/). Retrieve a list of all locales available.
 
-		> SmartlingApi::Project.new.list_locales 
-		=> { "locales" => [{ "localeId" => "de-DE", "description" => "German (Germany)" }, ...] }
+		> SmartlingApi::Project.new.list_locales
+		=> [{ "localeId" => "de-DE", "description" => "German (Germany)" }, ...]
 		
 		
 ## File Api
