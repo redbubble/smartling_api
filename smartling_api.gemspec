@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["developers@redbubble.com"]
 
   spec.summary       = %q{Wrapper for the Smartling API.}
-  spec.homepage      = "https://www.redbubble.com/"
+  spec.homepage      = "https://github.com/redbubble/smartling_api"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
