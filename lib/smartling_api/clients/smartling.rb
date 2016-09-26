@@ -52,7 +52,7 @@ module SmartlingApi
       # @param body [Hash] Request body to pass with request
       # @return [Hash] Response returned from request
       # @raise [Errors::Client] If response does not return a 2xx or 3xx
-      def upload(url:, token: token, body:)
+      def upload(url:, token:, body:)
         multipart_connection.post(url, body, header(token)).body.fetch('response')
       end
 
