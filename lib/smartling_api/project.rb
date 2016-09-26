@@ -15,13 +15,11 @@ module SmartlingApi
     # @see http://docs.smartling.com/pages/API/v2/Projects/List-Projects/
     #
     # @example List Files
-    #   SmartlingApi::Project.new.list_locales #=> { "locales" => [{ "localeId" => "de-DE", "description" => "German (Germany)" }, ...] }
+    #   SmartlingApi::Project.new.list_locales #=> [{ "localeId" => "de-DE", "description" => "German (Germany)" }, ...]
     #
-    # @return [Hash] Details of the locales available with the key "locales"
+    # @return [Array] Details of the locales available
     def list_locales
-      locales = smartling.get(url: "/projects-api/v2/projects/#{project_id}", token: token).fetch("targetLocales", [])
-
-      { "locales" => locales }
+      smartling.get(url: "/projects-api/v2/projects/#{project_id}", token: token).fetch("targetLocales", [])
     end
 
   private

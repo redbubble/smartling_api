@@ -31,13 +31,11 @@ RSpec.describe SmartlingApi::Project do
     let(:project) { described_class.new(token: 'she-ra', project_id: 'Skeletor') }
 
     it 'returns a list of locale languages' do
-      locales = {
-        "locales" => [
-          { "localeId" => "de-DE", "description" => "German (Germany)" },
-          { "localeId" => "es-ES", "description" => "Spanish (Spain)" },
-          { "localeId" => "fr-FR", "description" => "French (France)" }
-        ]
-      }
+      locales = [
+        { "localeId" => "de-DE", "description" => "German (Germany)" },
+        { "localeId" => "es-ES", "description" => "Spanish (Spain)" },
+        { "localeId" => "fr-FR", "description" => "French (France)" }
+      ]
       expect(list_locales).to eq locales
     end
   end
