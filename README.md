@@ -1,5 +1,6 @@
 # Smartling Api
 
+![Build Status](https://travis-ci.org/redbubble/smartling_api.svg?branch=master)
 [![Gem Version](https://badge.fury.io/rb/smartling_api.svg)](https://badge.fury.io/rb/smartling_api)
 
 ## Overview
