@@ -53,7 +53,7 @@ The `project_id` is optional.  If you are only using a single `project_id` per a
 
 ###Api Documentation
 
-You can find all api documentation on: [Api Documentation](./api.md)
+You can find all api documentation on: [Api Documentation](./doc/api.md)
 
 ###Errors
 
@@ -90,7 +90,7 @@ The following apis still need to be implemented:
 Credits
 -------
 
-[![](/redbubble.png)][redbubble]
+[![](/doc/redbubble.png)][redbubble]
 
 smartling api is maintained and funded by [Redbubble][redbubble].
 
