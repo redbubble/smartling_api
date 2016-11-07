@@ -51,9 +51,9 @@ You can obtain an id, secret via [Create Authentication Tokens](http://docs.smar
 
 The `project_id` is optional.  If you are only using a single `project_id` per application then you may add your `project_id` here.  If not you will have to pass the `project_id` when you create your api call. Examples below.
 
-###Api Documentation
+###Api Reference
 
-You can find all api documentation on: [Api Documentation](./doc/api.md)
+Reference documentation on accessing the smartling api can be found on: [Api documentation](./doc/api.md)
 
 ###Errors
 
