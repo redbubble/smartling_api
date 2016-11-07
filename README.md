@@ -87,7 +87,7 @@ The following apis still need to be implemented:
 -  File Api:  Download Translated Files: All Locales as ZIP
 -  File Api:  Download Translated Files: All Locales in one File - CSV
 
-Credits
+Maintainers
 -------
 
 [![](/doc/redbubble.png)][redbubble]
