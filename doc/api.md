@@ -88,3 +88,15 @@ Create a Project Api via,
 		SmartlingApi::File.new.upload(file_path: 'website.pot', file_uri: '/translation/website', file_type: 'gettext') 
 		=> { "code" => "SUCCESS" }
 		
+- [Get Translations](http://docs.smartling.com/pages/API/v2/FileAPI/Get-Translations/).  Get Translations
+
+	@param `file_path`: Location of file to upload
+	
+	@param `file_uri`: File path within smartling
+	
+	@param `locale_id`: Locale Id of translatable locale
+	
+	@param `**options`: Additional options for the given request. NOTE: If using a hash as parameters ensure all keys are symbols and then use `**options`.  See Smartling API Doc for options.
+
+		SmartlingApi::File.new.get_translations(file_path: 'website.pot', file_uri: '/translation/website', locale_id: 'de-DE')
+		=> 'msgid \"clothing\"\\nmsgstr \"Bekleidung\"'

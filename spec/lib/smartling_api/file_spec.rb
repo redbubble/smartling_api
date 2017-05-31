@@ -125,4 +125,26 @@ RSpec.describe SmartlingApi::File do
       expect(delete).to eq client_delete
     end
   end
+
+  describe '#get_translations' do
+    subject(:get_translations) { file.get_translations(file_path: 'website.pot', file_uri: 'graceskull', locale_id: 'fr-FR') }
+
+    before do
+      allow(Faraday::UploadIO).to receive(:new).with('website.pot', 'text/plain') { file_data }
+
+      stub_request(:post, "#{SmartlingApi::Clients::Smartling::SMARTLING_API}/files-api/v2/projects/#{project_id}/locales/fr-FR/file/get-translations").
+        with(headers: {'Authorization' => "Bearer #{token}"}, body: {'file' => file_data, 'fileUri' => 'graceskull'}).
+        to_return(
+          status: 200,
+          headers: { 'Content-type' => 'application/text'},
+          body: 'msgid "clothing"\nmsgstr "Bekleidung"'
+        )
+    end
+
+    let(:file_data) { 'msgid: "clothing"\nmsgstr ""' }
+
+    it 'returns file contents' do
+      expect(get_translations).to eq "msgid \"clothing\"\\nmsgstr \"Bekleidung\""
+    end
+  end
 end
