@@ -19,17 +19,17 @@ The Smartling Translation API lets developers to internationalize their website 
 Installation
 ------------
 
-###Requirements
+### Requirements
 
 - ruby 2.0+
 
-###Setup
+### Setup
 
 Add this line to your application's Gemfile:
 
   	gem 'smartling_api', '0.2.0'
   	
-###Run Tests
+### Run Tests
 
   	bundle exec rspec
   	
@@ -37,7 +37,7 @@ Add this line to your application's Gemfile:
 Usage
 -----
 
-###Config
+### Config
 
 You will need to configure smartling user id and secret. In Rails you would put it in an initializer file. eg. `<project_home>/config/smartling_api.rb`
 
@@ -51,11 +51,11 @@ You can obtain an id, secret via [Create Authentication Tokens](http://docs.smar
 
 The `project_id` is optional.  If you are only using a single `project_id` per application then you may add your `project_id` here.  If not you will have to pass the `project_id` when you create your api call. Examples below.
 
-###Api Reference
+### Api Reference
 
 Reference documentation on accessing the smartling api can be found on: [Api documentation](./doc/api.md)
 
-###Errors
+### Errors
 
 SmartlingApi will handle errors according to the response received from Smartling.  The errors that might be thrown on a request are,
 
