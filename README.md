@@ -81,7 +81,7 @@ The following apis still need to be implemented:
 -  File Api:  Last Modified: Single Locale
 -  File Api:  Last Modified: All Locales
 -  File Api:  Import Translations
--  File Api: Get Translations
+-  ~~File Api: Get Translations~~
 -  File Api:  Download Translated Files: Original File
 -  File Api:  Download Translated Files: Multiple Locales as ZIP
 -  File Api:  Download Translated Files: All Locales as ZIP

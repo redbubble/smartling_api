@@ -53,7 +53,10 @@ module SmartlingApi
       # @return [Hash] Response returned from request
       # @raise [Errors::Client] If response does not return a 2xx or 3xx
       def upload(url:, token:, body:)
-        multipart_connection.post(url, body, header(token)).body.fetch('response')
+        response = multipart_connection.post(url, body, header(token)).body
+        return response if response.is_a?(String)
+
+        response.fetch('response')
       end
 
       # Download a file from smartling for the given url

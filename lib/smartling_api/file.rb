@@ -77,6 +77,27 @@ module SmartlingApi
       smartling.post(url: "/files-api/v2/projects/#{project_id}/file/delete", token: token, body: { fileUri: file_uri })
     end
 
+    # Temporarily uploads a file, then returns a translated version for requested locales.
+    #
+    # @see http://docs.smartling.com/pages/API/v2/FileAPI/Get-Translations/
+    #
+    # @example Get Translations
+    #   SmartlingApi::File.new.get_translations(file: 'translations.pot', file_uri: '/translations/website.pot') #=> { "code" => "SUCCESS" }
+    #
+    # @param file_path [String] File path of contents to upload
+    # @param file_uri [String] File path within Smartling to base off
+    # @param locale_id [String] Locale id for the given file
+    # @param options [Hash] Additional options for the given request.
+    # @return [Hash] Details of tranlsations
+    def get_translations(file_path:, file_uri:, locale_id:, **options)
+      body = {
+        file:     Faraday::UploadIO.new(file_path, 'text/plain'),
+        fileUri:  file_uri,
+      }.merge(options)
+
+      smartling.upload(url: "/files-api/v2/projects/#{project_id}/locales/#{locale_id}/file/get-translations", token: token, body: body)
+    end
+
   private
 
     attr_reader :smartling, :token, :project_id
