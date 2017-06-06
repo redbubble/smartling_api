@@ -27,7 +27,7 @@ Installation
 
 Add this line to your application's Gemfile:
 
-  	gem 'smartling_api', '0.2.0'
+  	gem 'smartling_api', '0.3.0'
   	
 ### Run Tests
 
